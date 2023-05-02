@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 0
   Top = 0
-  Caption = '0'
+  Caption = 'Form1'
   ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
@@ -13,8 +13,8 @@ object Form1: TForm1
   OnCreate = FormCreate
   TextHeight = 15
   object Label1: TLabel
-    Left = 96
-    Top = 144
+    Left = 32
+    Top = 66
     Width = 57
     Height = 28
     Caption = 'Label1'
@@ -27,8 +27,8 @@ object Form1: TForm1
     Visible = False
   end
   object Label2: TLabel
-    Left = 232
-    Top = 144
+    Left = 32
+    Top = 154
     Width = 57
     Height = 28
     Caption = 'Label2'
@@ -40,9 +40,9 @@ object Form1: TForm1
     ParentFont = False
   end
   object Edit1: TEdit
-    Left = 96
-    Top = 96
-    Width = 121
+    Left = 32
+    Top = 24
+    Width = 185
     Height = 36
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -51,13 +51,12 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    OnChange = Edit1Change
-    OnExit = Edit1Exit
+    Text = 'Edit1'
   end
   object Edit2: TEdit
-    Left = 232
-    Top = 96
-    Width = 121
+    Left = 32
+    Top = 112
+    Width = 185
     Height = 36
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -66,6 +65,6 @@ object Form1: TForm1
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    OnChange = Edit2Change
+    Text = 'Edit2'
   end
 end

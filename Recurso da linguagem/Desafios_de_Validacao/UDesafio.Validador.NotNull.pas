@@ -10,6 +10,8 @@ uses
       [weak]
       FParent : iValidation;
       FParams : iValidationRulesParams;
+      procedure NotNullOnExit (Sender : TObject);
+      procedure NotNullOnChange (Sender : TObject);
       public
         constructor Create (Parent : iValidation);
         destructor Destroy; override;
@@ -22,15 +24,19 @@ uses
 implementation
 
 uses
-  UDesafio.Validador.Parametros;
+  UDesafio.Validador.Parametros, Vcl.StdCtrls, System.SysUtils;
 
-
-
-{ TValidationRulesNotNull }
+  { TValidationRulesNotNull }
 
 function TValidationRulesNotNull.&End: iValidation;
 begin
   Result := FParent;
+
+  if FParams.Component is TEdit then
+  begin
+    TEdit(FParams.Component).OnExit := NotNullOnExit;
+    TEdit(FParams.Component).OnChange := NotNullOnChange;
+  end;
 end;
 
 constructor TValidationRulesNotNull.Create(Parent : iValidation);
@@ -47,6 +53,32 @@ end;
 class function TValidationRulesNotNull.New (Parent : iValidation) : iValidationRules;
 begin
   Result := Self.Create(Parent);
+end;
+
+procedure TValidationRulesNotNull.NotNullOnChange(Sender: TObject);
+begin
+   if Trim(TEdit(Sender).Text) <> '' then
+  begin
+    TLabel(FParams.DisplayLabel).Visible := False;
+    TEdit(Sender).Color := FParams.ColorDefault;
+  end;
+end;
+
+procedure TValidationRulesNotNull.NotNullOnExit(Sender: TObject);
+begin
+  if Trim (TEdit(Sender).Text) = '' then
+  begin
+    TEdit(Sender).Color := FParams.ColorDanger;
+    TEdit(Sender).SetFocus;
+    TLabel(FParams.DisplayLabel).Visible := True;
+
+    if Trim (FParams.DisplayMsg) = '' then
+    TLabel(FParams.DisplayLabel).Caption := TEdit(Sender).Name + ' Não pode ser vazio'
+    else
+    TLabel(FParams.DisplayLabel).Caption := FParams.DisplayMsg;
+
+  end;
+
 end;
 
 function TValidationRulesNotNull.Params: iValidationRulesParams;

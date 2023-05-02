@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,  UDesafio.Validador.Interfaces;
 
 type
   TForm1 = class(TForm)
@@ -12,12 +12,10 @@ type
     Edit2: TEdit;
     Label1: TLabel;
     Label2: TLabel;
-    procedure Edit1Exit(Sender: TObject);
-    procedure Edit1Change(Sender: TObject);
-    procedure Edit2Change(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
+    FValidation : iValidation;
   public
     { Public declarations }
   end;
@@ -33,48 +31,25 @@ uses
 
 {$R *.dfm}
 
-procedure TForm1.Edit1Change(Sender: TObject);
-begin
-  if Length(Trim(Edit1.Text)) > 0 then
-  begin
-    Edit1.Color := ClWhite;
-    Label1.Visible := False;
-  end;
-
-end;
-
-procedure TForm1.Edit1Exit(Sender: TObject);
-begin
-  if Trim (Edit1.Text) = '' then
-  begin
-    Edit1.Color := ClRed;
-    Edit1.SetFocus;
-    Label1.Visible := True;
-    Label1.Caption := 'Edit1 não pode ser vazio!';
-
-  end;
-
-end;
-
-procedure TForm1.Edit2Change(Sender: TObject);
-begin
- if Trim (Edit2.Text) <> '' then
-  begin
-    Edit2.Color := ClRed;
-    Label2.Visible := False;
-  end;
-end;
-
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  TValidation.New
+  ReportMemoryLeaksOnShutdown := True;
+
+   FValidation := TValidation.New;
+
+    FValidation
       .NotNull
         .Params
           .Component(Edit1)
-          .ColorDanger(clRed)
           .DisplayLabel(Label1)
-          .DisplayMsg('Edit1 Não pode ser Vazio')
         .&End
+      .&End
+      .NotNull
+        .Params
+          .Component(Edit2)
+          .DisplayLabel(Label2)
+        .&End
+      .&End
       {.MinLengh
         .Component(Edit1)
         .ColorDanger(clRed)

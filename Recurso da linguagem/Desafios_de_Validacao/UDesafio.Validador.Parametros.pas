@@ -24,7 +24,7 @@ type
       function Component : TComponent; overload;
       function ColorDanger (aValue : TColor): iValidationRulesParams; overload;
       function ColorDanger : TColor; overload;
-      function ColorDefault (avalue : TColor): iValidationRulesParams; overload;
+      function ColorDefault (aValue : TColor): iValidationRulesParams; overload;
       function ColorDefault : TColor; overload;
       function DisplayLabel (aValue : TComponent): iValidationRulesParams; overload;
       function DisplayLabel :TComponent; overload;
@@ -52,7 +52,6 @@ function TValidationRulesParams.ColorDanger(
 begin
   Result := Self;
   FColorDanger := aValue;
-
 end;
 
 function TValidationRulesParams.ColorDefault(
@@ -76,7 +75,7 @@ function TValidationRulesParams.Component(
   aValue: TComponent): iValidationRulesParams;
 begin
   Result := Self;
-  FComponent := FComponent;
+  FComponent :=  aValue;
 end;
 
 function TValidationRulesParams.&End: iValidationRules;
@@ -87,6 +86,8 @@ end;
 constructor TValidationRulesParams.Create(Parent : iValidationRules);
 begin
   FParent := Parent;
+  FColorDanger := clRed;
+  FColorDefault := clWhite;
 end;
 
 destructor TValidationRulesParams.Destroy;

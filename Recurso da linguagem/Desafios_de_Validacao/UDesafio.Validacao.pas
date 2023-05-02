@@ -3,10 +3,11 @@ unit UDesafio.Validacao;
 interface
 
 uses
-  UDesafio.Validador.Interfaces;
+  UDesafio.Validador.Interfaces, System.Classes, System.Generics.Collections;
   type
    TValidation = class (TInterfacedObject, iValidation)
    private
+   FListRules : TList<iValidationRules>;
    FNotNull : iValidationRules;
    public
       constructor Create;
@@ -25,12 +26,14 @@ uses
 
 constructor TValidation.Create;
 begin
-
+  FListRules := TList<iValidationRules>.Create;
 end;
 
 destructor TValidation.Destroy;
 begin
+  FListRules.Free;
 
+  Inherited;
 end;
 
 class function TValidation.New: ivalidation;
@@ -40,12 +43,8 @@ end;
 
 function TValidation.NotNull: iValidationRules;
 begin
-  if not Assigned (FNotNull) then
-    FNotNull := TValidationRulesNotNull.New(Self);
-
-  Result := FNotNull;
-
-
+  FListRules.Add(TValidationRulesNotNull.New(Self));
+  Result := FListRules.Last;
 end;
 
 end.
